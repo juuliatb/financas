@@ -25,7 +25,10 @@
   ::-webkit-scrollbar { width: 4px; height: 4px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  input, select, textarea { outline: none; font-family: 'Nunito', sans-serif; }
+  input, select, textarea { outline: none; font-family: 'Nunito', sans-serif; -webkit-appearance: none; appearance: none; }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a7e72' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px !important; }
+  input[type="date"] { -webkit-appearance: none; appearance: none; }
+  input[type="number"] { -webkit-appearance: none; -moz-appearance: textfield; }
   button { cursor: pointer; font-family: 'Nunito', sans-serif; border: none; }
 
 @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
@@ -133,32 +136,17 @@
 <div id="lock-screen" style="position:fixed;inset:0;background:#f5d76e;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:0">
   <div style="font-size:72px;margin-bottom:16px">💰</div>
   <div style="font-size:24px;font-weight:900;color:#2d2720;margin-bottom:6px">Minhas Finanças</div>
-  <div style="font-size:14px;font-weight:600;color:#8a7e72;margin-bottom:40px">Digite sua senha para continuar</div>
+  <div style="font-size:14px;font-weight:600;color:#8a7e72;margin-bottom:32px">Digite sua senha para continuar</div>
 
-  <div id="pin-dots" style="display:flex;gap:16px;margin-bottom:40px">
-    <div class="pin-dot"></div>
-    <div class="pin-dot"></div>
-    <div class="pin-dot"></div>
-    <div class="pin-dot"></div>
-  </div>
-
-  <div id="pin-error" style="color:#d94f4f;font-size:13px;font-weight:800;height:20px;margin-bottom:16px;opacity:0;transition:opacity .3s">Senha incorreta. Tente novamente.</div>
-
-  <!-- Numpad -->
-
-  <div style="display:grid;grid-template-columns:repeat(3,72px);gap:12px">
-    <button class="pin-btn" onclick="pinPress('1')">1</button>
-    <button class="pin-btn" onclick="pinPress('2')">2</button>
-    <button class="pin-btn" onclick="pinPress('3')">3</button>
-    <button class="pin-btn" onclick="pinPress('4')">4</button>
-    <button class="pin-btn" onclick="pinPress('5')">5</button>
-    <button class="pin-btn" onclick="pinPress('6')">6</button>
-    <button class="pin-btn" onclick="pinPress('7')">7</button>
-    <button class="pin-btn" onclick="pinPress('8')">8</button>
-    <button class="pin-btn" onclick="pinPress('9')">9</button>
-    <div></div>
-    <button class="pin-btn" onclick="pinPress('0')">0</button>
-    <button class="pin-btn pin-del" onclick="pinDel()">⌫</button>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:220px">
+    <input id="pin-input" type="password" placeholder="••••"
+      style="width:100%;text-align:center;font-size:22px;font-weight:800;letter-spacing:6px;padding:14px 18px;border-radius:16px;border:2px solid rgba(45,39,32,0.15);background:rgba(255,255,255,0.7);font-family:'Nunito',sans-serif;color:#2d2720;outline:none;-webkit-appearance:none;"
+      onkeydown="if(event.key==='Enter')checkPin()">
+    <div id="pin-error" style="color:#d94f4f;font-size:13px;font-weight:800;height:18px;opacity:0;transition:opacity .3s">Senha incorreta.</div>
+    <button onclick="checkPin()"
+      style="width:100%;padding:13px;border-radius:14px;border:none;background:#2d2720;color:#f5d76e;font-size:15px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;margin-top:4px">
+      Entrar
+    </button>
   </div>
 </div>
 
@@ -448,45 +436,20 @@ const API = "https://script.google.com/macros/s/AKfycbxkr8YE0iskf-FGOv7DXytx42Rh
 
 // ── PIN ───────────────────────────────────────────────────────────────────────
 const CORRECT_PIN = "0707";
-let pinValue = "";
-
-function pinPress(digit) {
-  if (pinValue.length >= 4) return;
-  pinValue += digit;
-  updatePinDots();
-  if (pinValue.length === 4) {
-    setTimeout(checkPin, 120);
-  }
-}
-
-function pinDel() {
-  pinValue = pinValue.slice(0, -1);
-  updatePinDots();
-}
-
-function updatePinDots() {
-  const dots = document.querySelectorAll(".pin-dot");
-  dots.forEach((d, i) => {
-    d.classList.toggle("filled", i < pinValue.length);
-  });
-}
 
 function checkPin() {
-  if (pinValue === CORRECT_PIN) {
+  const input = document.getElementById("pin-input");
+  const err = document.getElementById("pin-error");
+  if (input.value === CORRECT_PIN) {
     const lock = document.getElementById("lock-screen");
     lock.style.transition = "opacity .4s";
     lock.style.opacity = "0";
     setTimeout(() => { lock.style.display = "none"; document.getElementById("splash").style.display = "flex"; boot(); }, 400);
   } else {
-    const err = document.getElementById("pin-error");
     err.style.opacity = "1";
-    // Shake dots
-    const dotsEl = document.getElementById("pin-dots");
-    dotsEl.style.transition = "transform .1s";
-    dotsEl.style.transform = "translateX(8px)";
-    setTimeout(() => dotsEl.style.transform = "translateX(-8px)", 100);
-    setTimeout(() => dotsEl.style.transform = "translateX(0)", 200);
-    setTimeout(() => { err.style.opacity = "0"; pinValue = ""; updatePinDots(); }, 1500);
+    input.value = "";
+    input.style.borderColor = "#d94f4f";
+    setTimeout(() => { err.style.opacity = "0"; input.style.borderColor = "rgba(45,39,32,0.15)"; }, 1800);
   }
 }
 
