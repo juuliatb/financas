@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -8,27 +7,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Finanças">
 <title>Minhas Finanças</title>
-<script>
-  // Gera ícone 💰 em fundo amarelo manteiga para tela inicial
-  (function(){
-    const c=document.createElement('canvas');
-    c.width=180;c.height=180;
-    const ctx=c.getContext('2d');
-    const r=40;
-    ctx.beginPath();
-    ctx.moveTo(r,0);ctx.lineTo(180-r,0);ctx.quadraticCurveTo(180,0,180,r);
-    ctx.lineTo(180,180-r);ctx.quadraticCurveTo(180,180,180-r,180);
-    ctx.lineTo(r,180);ctx.quadraticCurveTo(0,180,0,180-r);
-    ctx.lineTo(0,r);ctx.quadraticCurveTo(0,0,r,0);
-    ctx.closePath();
-    ctx.fillStyle='#f5d76e';ctx.fill();
-    ctx.font='110px serif';ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText('💰',90,95);
-    const link=document.createElement('link');
-    link.rel='apple-touch-icon';link.href=c.toDataURL();
-    document.head.appendChild(link);
-  })();
-</script>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -48,122 +26,102 @@
   input, select, textarea { outline: none; font-family: 'Nunito', sans-serif; }
   button { cursor: pointer; font-family: 'Nunito', sans-serif; border: none; }
 
-@keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes slideIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes slideIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 
-.card { background: var(–surface); border: 1.5px solid var(–border); border-radius: 20px; box-shadow: var(–shadow); animation: fadeUp .25s ease; }
-.btn { border-radius: 14px; padding: 12px 22px; font-size: 14px; font-weight: 700; transition: all .18s; letter-spacing: .2px; }
-.btn-accent { background: var(–accent); color: #fff; }
-.btn-accent:hover { filter: brightness(1.08); transform: translateY(-1px); box-shadow: 0 5px 14px var(–accent-glow); }
-.btn-accent:disabled { opacity: .5; transform: none; cursor: not-allowed; }
-.btn-accent:active { transform: scale(.97); }
-.input { background: var(–surface-high); border: 1.5px solid var(–border); border-radius: 12px; color: var(–text); padding: 11px 14px; font-size: 15px; width: 100%; transition: border .2s; font-family: ‘Nunito’, sans-serif; font-weight: 600; }
-.input:focus { border-color: var(–accent); background: #fff; }
-.row { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 14px; transition: background .15s; }
-.row:hover { background: var(–surface-high); }
-.tag-btn { background: var(–surface-high); border: none; border-radius: 20px; padding: 7px 16px; font-size: 12px; font-weight: 700; color: var(–muted); transition: all .15s; font-family: ‘Nunito’, sans-serif; }
-.tag-btn.on { background: var(–accent-soft); color: var(–accent); }
-.del-btn { background: none; border: none; color: var(–faint); cursor: pointer; padding: 6px; border-radius: 8px; transition: color .15s; display: flex; align-items: center; }
-.del-btn:hover { color: var(–red); }
+  .card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 20px; box-shadow: var(--shadow); animation: fadeUp .25s ease; }
+  .btn { border-radius: 14px; padding: 12px 22px; font-size: 14px; font-weight: 700; transition: all .18s; letter-spacing: .2px; }
+  .btn-accent { background: var(--accent); color: #fff; }
+  .btn-accent:hover { filter: brightness(1.08); transform: translateY(-1px); box-shadow: 0 5px 14px var(--accent-glow); }
+  .btn-accent:disabled { opacity: .5; transform: none; cursor: not-allowed; }
+  .btn-accent:active { transform: scale(.97); }
+  .input { background: var(--surface-high); border: 1.5px solid var(--border); border-radius: 12px; color: var(--text); padding: 11px 14px; font-size: 15px; width: 100%; transition: border .2s; font-family: 'Nunito', sans-serif; font-weight: 600; }
+  .input:focus { border-color: var(--accent); background: #fff; }
+  .row { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 14px; transition: background .15s; }
+  .row:hover { background: var(--surface-high); }
+  .tag-btn { background: var(--surface-high); border: none; border-radius: 20px; padding: 7px 16px; font-size: 12px; font-weight: 700; color: var(--muted); transition: all .15s; font-family: 'Nunito', sans-serif; }
+  .tag-btn.on { background: var(--accent-soft); color: var(--accent); }
+  .del-btn { background: none; border: none; color: var(--faint); cursor: pointer; padding: 6px; border-radius: 8px; transition: color .15s; display: flex; align-items: center; }
+  .del-btn:hover { color: var(--red); }
 
-/* Header */
-#header { background: var(–surface); border-bottom: 1.5px solid var(–border); padding: 0 20px; display: flex; align-items: center; justify-content: space-between; height: 58px; position: sticky; top: 0; z-index: 100; box-shadow: var(–shadow); }
-.logo { display: flex; align-items: center; gap: 10px; }
-.logo-icon { width: 36px; height: 36px; border-radius: 12px; background: var(–accent-soft); display: flex; align-items: center; justify-content: center; font-size: 18px; }
-.logo-text { font-size: 17px; font-weight: 900; color: var(–accent); }
-.logo-sub { font-size: 10px; color: var(–green); font-weight: 700; margin-top: -2px; }
-.month-picker { display: flex; align-items: center; gap: 8px; background: var(–surface-high); border-radius: 12px; padding: 7px 13px; }
-.month-picker input { background: transparent; border: none; color: var(–text); font-size: 13px; font-weight: 700; font-family: ‘Nunito’, sans-serif; cursor: pointer; }
+  /* Header */
+  #header { background: var(--surface); border-bottom: 1.5px solid var(--border); padding: 0 20px; display: flex; align-items: center; justify-content: space-between; height: 58px; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-icon { width: 36px; height: 36px; border-radius: 12px; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .logo-text { font-size: 17px; font-weight: 900; color: var(--accent); }
+  .logo-sub { font-size: 10px; color: var(--green); font-weight: 700; margin-top: -2px; }
+  .month-picker { display: flex; align-items: center; gap: 8px; background: var(--surface-high); border-radius: 12px; padding: 7px 13px; }
+  .month-picker input { background: transparent; border: none; color: var(--text); font-size: 13px; font-weight: 700; font-family: 'Nunito', sans-serif; cursor: pointer; }
 
-/* Nav */
-#nav { background: var(–surface); border-bottom: 1.5px solid var(–border); padding: 6px 16px; display: flex; gap: 3px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-#nav::-webkit-scrollbar { display: none; }
-.tab { background: none; border: none; color: var(–muted); padding: 8px 13px; font-size: 13px; font-weight: 700; border-radius: 12px; transition: all .18s; white-space: nowrap; }
-.tab.active { background: var(–accent); color: #fff; box-shadow: 0 2px 8px var(–accent-glow); }
+  /* Nav */
+  #nav { background: var(--surface); border-bottom: 1.5px solid var(--border); padding: 6px 16px; display: flex; gap: 3px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  #nav::-webkit-scrollbar { display: none; }
+  .tab { background: none; border: none; color: var(--muted); padding: 8px 13px; font-size: 13px; font-weight: 700; border-radius: 12px; transition: all .18s; white-space: nowrap; }
+  .tab.active { background: var(--accent); color: #fff; box-shadow: 0 2px 8px var(--accent-glow); }
 
-/* Stats bar */
-#stats { background: rgba(61,158,110,0.08); border-bottom: 1px solid rgba(61,158,110,0.15); padding: 5px 20px; font-size: 12px; font-weight: 700; color: var(–muted); display: flex; gap: 18px; flex-wrap: wrap; }
-#stats b { color: var(–text); }
+  /* Stats bar */
+  #stats { background: rgba(61,158,110,0.08); border-bottom: 1px solid rgba(61,158,110,0.15); padding: 5px 20px; font-size: 12px; font-weight: 700; color: var(--muted); display: flex; gap: 18px; flex-wrap: wrap; }
+  #stats b { color: var(--text); }
 
-/* Content */
-#content { max-width: 700px; margin: 0 auto; padding: 22px 16px 80px; }
+  /* Content */
+  #content { max-width: 700px; margin: 0 auto; padding: 22px 16px 80px; }
 
-/* Grid helpers */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
-.span-2 { grid-column: 1/-1; }
+  /* Grid helpers */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+  .span-2 { grid-column: 1/-1; }
 
-/* KPI */
-.kpi { padding: 16px; }
-.kpi-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px; }
-.kpi-val { font-size: 20px; font-weight: 900; }
-.kpi-sub { font-size: 11px; color: var(–muted); margin-top: 3px; font-weight: 600; }
+  /* KPI */
+  .kpi { padding: 16px; }
+  .kpi-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px; }
+  .kpi-val { font-size: 20px; font-weight: 900; }
+  .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 3px; font-weight: 600; }
 
-/* Section title */
-.sec-title { font-size: 11px; font-weight: 800; color: var(–muted); letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 14px; }
-.sec-sub { font-size: 11px; color: var(–faint); margin-top: 3px; font-weight: 500; }
+  /* Section title */
+  .sec-title { font-size: 11px; font-weight: 800; color: var(--muted); letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 14px; }
+  .sec-sub { font-size: 11px; color: var(--faint); margin-top: 3px; font-weight: 500; }
 
-/* Progress bar */
-.prog-track { border-radius: 99px; overflow: hidden; background: var(–surface-high); }
-.prog-fill { border-radius: 99px; transition: width .5s ease; }
+  /* Progress bar */
+  .prog-track { border-radius: 99px; overflow: hidden; background: var(--surface-high); }
+  .prog-fill { border-radius: 99px; transition: width .5s ease; }
 
-/* Toast */
-#toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); padding: 10px 22px; border-radius: 30px; font-size: 13px; font-weight: 800; box-shadow: 0 4px 20px rgba(0,0,0,0.18); z-index: 9999; white-space: nowrap; display: none; animation: slideIn .3s ease; color: #fff; }
+  /* Toast */
+  #toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); padding: 10px 22px; border-radius: 30px; font-size: 13px; font-weight: 800; box-shadow: 0 4px 20px rgba(0,0,0,0.18); z-index: 9999; white-space: nowrap; display: none; animation: slideIn .3s ease; color: #fff; }
 
-/* Loading / Error */
-#splash { position: fixed; inset: 0; background: var(–bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; z-index: 999; }
-.spinner { width: 24px; height: 24px; border: 3px solid var(–accent-soft); border-top-color: var(–accent); border-radius: 50%; animation: spin 1s linear infinite; }
+  /* Loading / Error */
+  #splash { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; z-index: 999; }
+  .spinner { width: 24px; height: 24px; border: 3px solid var(--accent-soft); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
 
-/* Type toggle */
-.type-toggle { display: flex; gap: 8px; margin-bottom: 14px; }
-.type-btn { flex: 1; padding: 11px; border-radius: 14px; border: none; font-weight: 800; font-size: 14px; font-family: ‘Nunito’, sans-serif; transition: all .2s; cursor: pointer; }
+  /* Type toggle */
+  .type-toggle { display: flex; gap: 8px; margin-bottom: 14px; }
+  .type-btn { flex: 1; padding: 11px; border-radius: 14px; border: none; font-weight: 800; font-size: 14px; font-family: 'Nunito', sans-serif; transition: all .2s; cursor: pointer; }
 
-/* Installment badges */
-.inst-badge { font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 8px; margin-left: 6px; }
+  /* Installment badges */
+  .inst-badge { font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 8px; margin-left: 6px; }
 
-/* Bar chart */
-.bar-chart { display: flex; align-items: flex-end; gap: 8px; }
-.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
-.bar-pair { width: 100%; display: flex; gap: 2px; align-items: flex-end; }
-.bar { flex: 1; border-radius: 4px 4px 0 0; min-height: 2px; opacity: .85; }
-.bar-label { font-size: 9px; color: var(–faint); font-weight: 700; }
+  /* Bar chart */
+  .bar-chart { display: flex; align-items: flex-end; gap: 8px; }
+  .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .bar-pair { width: 100%; display: flex; gap: 2px; align-items: flex-end; }
+  .bar { flex: 1; border-radius: 4px 4px 0 0; min-height: 2px; opacity: .85; }
+  .bar-label { font-size: 9px; color: var(--faint); font-weight: 700; }
 
-/* Insight card */
-.insight-card { padding: 20px; border-left: 4px solid; }
-.insight-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-.insight-badge { font-size: 11px; font-weight: 800; border-radius: 20px; padding: 4px 12px; white-space: nowrap; margin-left: 10px; }
-.insight-detail { font-size: 13px; background: var(–surface-high); border-radius: 12px; padding: 10px 14px; line-height: 1.6; }
+  /* Insight card */
+  .insight-card { padding: 20px; border-left: 4px solid; }
+  .insight-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .insight-badge { font-size: 11px; font-weight: 800; border-radius: 20px; padding: 4px 12px; white-space: nowrap; margin-left: 10px; }
+  .insight-detail { font-size: 13px; background: var(--surface-high); border-radius: 12px; padding: 10px 14px; line-height: 1.6; }
 
-/* Page sections */
-.page { display: none; flex-direction: column; gap: 16px; }
-.page.active { display: flex; }
+  /* Page sections */
+  .page { display: none; flex-direction: column; gap: 16px; }
+  .page.active { display: flex; }
 </style>
-
 </head>
 <body>
 
-<!-- Tela de senha -->
-
-<div id="lock-screen" style="position:fixed;inset:0;background:#f5d76e;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:0;font-family:'Nunito',sans-serif;">
-  <div style="font-size:72px;margin-bottom:16px">💰</div>
-  <div style="font-size:22px;font-weight:900;color:#2d2720;margin-bottom:6px">Minhas Finanças</div>
-  <div style="font-size:13px;font-weight:600;color:#8a7e72;margin-bottom:32px">Digite sua senha para continuar</div>
-  <div style="display:flex;flex-direction:column;align-items:center;gap:10px;width:200px">
-    <input id="pin-input" type="password" placeholder="senha"
-      style="width:100%;text-align:center;font-size:18px;font-weight:800;letter-spacing:4px;padding:12px 16px;border-radius:14px;border:1.5px solid rgba(45,39,32,0.18);background:rgba(255,255,255,0.75);font-family:'Nunito',sans-serif;color:#2d2720;outline:none;"
-      onkeydown="if(event.key==='Enter')checkPin()">
-    <div id="pin-error" style="color:#d94f4f;font-size:12px;font-weight:800;height:16px;opacity:0;transition:opacity .3s">Senha incorreta.</div>
-    <button onclick="checkPin()"
-      style="width:100%;padding:12px;border-radius:14px;border:none;background:#2d2720;color:#f5d76e;font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;">
-      Entrar
-    </button>
-  </div>
-</div>
-
 <!-- Splash -->
-
-<div id="splash" style="display:none;position:fixed;inset:0;background:#f7f5f2;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:999;">
+<div id="splash">
   <div style="font-size:48px">💰</div>
   <div style="color:var(--accent);font-size:18px;font-weight:800">Minhas Finanças</div>
   <div style="display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;font-weight:600">
@@ -173,11 +131,9 @@
 </div>
 
 <!-- Toast -->
-
 <div id="toast"></div>
 
 <!-- Header -->
-
 <div id="header" style="display:none">
   <div class="logo">
     <div class="logo-icon">💰</div>
@@ -193,7 +149,6 @@
 </div>
 
 <!-- Nav -->
-
 <div id="nav" style="display:none">
   <button class="tab active" onclick="goTab('dashboard')">🏠 Início</button>
   <button class="tab" onclick="goTab('lancamentos')">➕ Lançamentos</button>
@@ -207,7 +162,6 @@
 </div>
 
 <!-- Stats -->
-
 <div id="stats" style="display:none">
   <span>📦 <b id="stat-tx">0</b> lançamentos</span>
   <span>🔁 <b id="stat-fx">0</b> fixos ativos</span>
@@ -215,11 +169,9 @@
 </div>
 
 <!-- Content -->
-
 <div id="content" style="display:none">
 
   <!-- DASHBOARD -->
-
   <div id="page-dashboard" class="page active">
     <div class="grid-3" id="dash-kpis"></div>
     <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:14px">
@@ -244,7 +196,6 @@
   </div>
 
   <!-- LANÇAMENTOS -->
-
   <div id="page-lancamentos" class="page">
     <div class="card" style="padding:22px">
       <div class="sec-title">Novo lançamento</div>
@@ -278,7 +229,6 @@
   </div>
 
   <!-- CARTÃO -->
-
   <div id="page-cartao" class="page">
     <div class="card" style="padding:22px">
       <div class="sec-title">Lançar compra parcelada</div>
@@ -309,7 +259,6 @@
   </div>
 
   <!-- FIXOS -->
-
   <div id="page-fixos" class="page">
     <div class="card" style="padding:22px">
       <div class="sec-title">Cadastrar gasto fixo</div>
@@ -339,7 +288,6 @@
   </div>
 
   <!-- PROJEÇÃO -->
-
   <div id="page-projecao" class="page">
     <div class="card" style="padding:22px">
       <div class="sec-title">Parâmetros</div>
@@ -363,7 +311,6 @@
   </div>
 
   <!-- RESERVA -->
-
   <div id="page-reserva" class="page">
     <div class="card" style="padding:22px">
       <div class="sec-title">Minha reserva de emergência</div>
@@ -392,7 +339,6 @@
   </div>
 
   <!-- INSIGHTS -->
-
   <div id="page-insights" class="page">
     <div class="card" id="ins-summary" style="padding:20px;background:linear-gradient(120deg,var(--accent-soft),var(--surface))"></div>
     <div id="ins-cards"></div>
@@ -400,7 +346,6 @@
   </div>
 
   <!-- RELATÓRIOS -->
-
   <div id="page-relatorios" class="page">
     <div class="card" style="padding:22px">
       <div class="sec-title" id="rel-cat-title">Gastos por categoria</div>
@@ -414,7 +359,6 @@
   </div>
 
   <!-- CATEGORIAS -->
-
   <div id="page-categorias" class="page">
     <div class="card" style="padding:22px">
       <div class="sec-title">Nova categoria</div>
@@ -1164,33 +1108,8 @@ function renderCategorias() {
   });
 }
 
-// ── Senha ─────────────────────────────────────────────────────────────────────
-function checkPin() {
-  const input = document.getElementById("pin-input");
-  const err = document.getElementById("pin-error");
-  if (input.value === "0707") {
-    const lock = document.getElementById("lock-screen");
-    lock.style.transition = "opacity .4s";
-    lock.style.opacity = "0";
-    setTimeout(() => {
-      lock.style.display = "none";
-      document.getElementById("splash").style.display = "flex";
-      boot();
-    }, 400);
-  } else {
-    err.style.opacity = "1";
-    input.value = "";
-    input.style.borderColor = "#d94f4f";
-    setTimeout(() => {
-      err.style.opacity = "0";
-      input.style.borderColor = "rgba(45,39,32,0.18)";
-    }, 1800);
-  }
-}
-
 // ── Start ─────────────────────────────────────────────────────────────────────
-// boot() é chamado após a senha correta
+boot();
 </script>
-
 </body>
 </html>
